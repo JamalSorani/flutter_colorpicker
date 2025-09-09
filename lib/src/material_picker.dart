@@ -15,8 +15,7 @@ class MaterialPicker extends StatefulWidget {
     this.onPrimaryChanged,
     this.enableLabel = false,
     this.portraitOnly = false,
-    this.colorTypes,
-    this.initialColorType,
+    required this.colorTypes,
   }) : super(key: key);
 
   final Color pickerColor;
@@ -25,8 +24,7 @@ class MaterialPicker extends StatefulWidget {
   final bool enableLabel;
   final bool portraitOnly;
 
-  final List<List<Color>>? colorTypes;
-  final List<Color>? initialColorType;
+  final List<List<Color>> colorTypes;
 
   @override
   State<StatefulWidget> createState() => _MaterialPickerState();
@@ -42,36 +40,13 @@ class _MaterialPickerState extends State<MaterialPicker> {
     super.initState();
 
     // Use passed colorTypes or default ones
-    _colorTypes = widget.colorTypes ??
-        [
-          [Colors.red, Colors.redAccent],
-          [Colors.pink, Colors.pinkAccent],
-          [Colors.purple, Colors.purpleAccent],
-          [Colors.deepPurple, Colors.deepPurpleAccent],
-          [Colors.indigo, Colors.indigoAccent],
-          [Colors.blue, Colors.blueAccent],
-          [Colors.lightBlue, Colors.lightBlueAccent],
-          [Colors.cyan, Colors.cyanAccent],
-          [Colors.teal, Colors.tealAccent],
-          [Colors.green, Colors.greenAccent],
-          [Colors.lightGreen, Colors.lightGreenAccent],
-          [Colors.lime, Colors.limeAccent],
-          [Colors.yellow, Colors.yellowAccent],
-          [Colors.amber, Colors.amberAccent],
-          [Colors.orange, Colors.orangeAccent],
-          [Colors.deepOrange, Colors.deepOrangeAccent],
-          [Colors.brown],
-          [Colors.grey],
-          [Colors.blueGrey],
-          [Colors.black],
-        ];
+    _colorTypes = widget.colorTypes;
 
     // Use passed initialColorType or determine from pickerColor
-    _currentColorType = widget.initialColorType ??
-        _colorTypes.firstWhere(
-          (group) => group.any((c) => c.value == widget.pickerColor.value),
-          orElse: () => _colorTypes[0],
-        );
+    _currentColorType = _colorTypes.firstWhere(
+      (group) => group.any((c) => c.value == widget.pickerColor.value),
+      orElse: () => _colorTypes[0],
+    );
 
     // Determine initial shading
     for (var group in _colorTypes) {
